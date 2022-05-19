@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css.css">
+  <script src="vue.min.js"></script>
+  <title>Techno</title>
+</head>
+<body>
+<div id="app">
+
+  <section class="modal" @click="close">
+    <div class="modal-content">
+      <span class="closer">X</span>
+      <div><img :src="itemSelec.img" ></div>
+      <div class="modal-content-dados">
+
+        <p>{{itemSelec.preco |  precoFormatado}}</p>
+        <h1>{{itemSelec.nome}}</h1>
+        <h2>{{itemSelec.descricao}}</h2>
+
+
+
+        <button v-if="itemSelec.estoque > 0" class="btn" @click="adicionarCarrinho">Adicionar Item</button>
+        <button v-else class="btn disable" @click="adicionarCarrinho">Estoque Esgotado</button>
+
+        <h3>Avaliações
+        </h3>
+        <ul>
+          <li v-for="(item) in itemSelec.reviews">  <p>{{item.descricao}}</p><h4>{{item.nome}} | {{item.estrelas}} estrelas</h4></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="modalCarrinho" :class= "{ativo: displayModal}" @click="closeCarrinho">
+    <div v-if="carrinho.length === 0">
+      Voce ainda não selecionou nada
+    </div>
+    <div v-else>
+    <ul class="listaCarrinho">
+      <li v-for="(item, index) in carrinho" >
+        <p>{{item.nome}} </p>
+        <p>{{item.preco}}        <span><button @click="removerItem(index)">x</button></span> </p>
+
+      </li>
+    </ul>
+  </div>
+  </section>
+
+
+  <section class="topo">
+    <div class="topo-itens">
+      <img src="assets/techno.svg" alt="">
+      <div>
+   
+        <div class="top-item-direita"  
+        @click = "displayModal = !displayModal" > 
+          <p> {{totalItens}} | {{carrinhoTotal | precoFormatado}}</p>
+          <img src="assets/carrinho.svg" 
+          alt="">
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section class="produtos">
+    <div class="produto" v-for="(item, key) in objeto" :key="item.id" @click="modal(item.id)"> <img :src="item.img" :alt="item.nome"> <div class="dadoProduto"> <p class="preco">{{item.preco | precoFormatado }}</p> <p class="nomeItem">{{item.nome}}</p></div> </div>
+  </section>
+</div>
+  <script src="VueJS.js"></script>
+</body>
+</html>
